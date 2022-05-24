@@ -1,0 +1,12 @@
+# dev environment
+.haxe/
+.neko/
+.hl/
+.haxelib/
+
+# binaries
+bin/
+*.n
+*.hl
+
+build.hxml

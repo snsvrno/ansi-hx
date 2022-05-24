@@ -1,0 +1,13 @@
+{
+	"name": "ansi",
+	"url": "https://github.com/snsvrno/ansi-hx",
+	"license": "MIT",
+	"tags": ["terminal","console","ansi"],
+	"description": "Pure haxe VT100 command library terminal applications",
+	"version": "0.0.0",
+	"contributors": ["snsvrno"],
+	"classPath": "lib/",
+	"releasenote": "inital release",
+	"dependencies": {
+	}
+}

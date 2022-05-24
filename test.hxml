@@ -1,0 +1,5 @@
+-lib ansi
+-cp test
+-main Test
+
+-neko test.n
