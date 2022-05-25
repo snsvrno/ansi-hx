@@ -22,17 +22,18 @@ and then use to make rich terminal applications
 
 ```haxe
 import ansi.Paint.*;
-
 // you can use single commands it change different aspects
 
-Sys.println(color(Blue) + background(White) + "ANSI.hx!" + reset());
-Sys.println(color(Magenta) "It's " + italic() + color() + "Great!" + italics(false));
+Sys.println(background(Cyan) + bold() + " [ ANSI.hx ] " + reset());
+Sys.println(color(Magenta) + "It's " + italic() + color() + "Great!" + italic(false));
 
 // or you can use the paint wrapper
 
-Sys.println(paint("ANSI.hx", Blue, White));
-Sys.println(paint("It's ", Magenta) + paint("Great!", Style.Standout));
+Sys.println(paint(" [ ANSI.hx ] ", null, Cyan, Bold));
+Sys.println(paint("It's ", Magenta) + paint("Great!", Standout));
 ```
+
+![output of the above commands](images/short-example.png)
 
 ## General Usage
 
