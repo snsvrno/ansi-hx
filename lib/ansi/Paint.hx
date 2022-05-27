@@ -43,6 +43,17 @@ class Paint {
 		return command('38;2;$r;$g;$b');
 	}
 
+	/**
+	 * Sets the background color with **truecolor** using a hex-int.
+	 */
+	public static function colorHex(hex : Int) : String {
+		return colorRGB(
+			(hex >> 16) & 0xff,
+			(hex >> 8) & 0xff,
+			hex & 0xff
+		);
+	}
+
 	/*** Sets the background color, will set the color to "default" if not set */
 	public static function background(?color:Color = Default, ?bright : Bool = false) : String {
 		var b = if (bright) ";1" else "";
@@ -66,6 +77,53 @@ class Paint {
 	public static function backgroundRGB(r:Int, g:Int, b:Int) : String {
 		return command('48;2;$r;$g;$b');
 	}
+
+	/**
+	 * Sets the background color with **truecolor** using a hex-int.
+	 */
+	public static function backgroundHex(hex : Int) : String {
+		return backgroundRGB(
+			(hex >> 16) & 0xff,
+			(hex >> 8) & 0xff,
+			hex & 0xff
+		);
+	}
+
+	/*** Sets the underline color, will set the color to "default" if not set */
+	public static function underlineColor(?color:Color = Default, ?bright : Bool = false) : String {
+		var b = if (bright) ";1" else "";
+		return command(BG + color + b);
+	}
+
+	/**
+	 * Sets the underline color using a 256 color palette. Valid range is 0 - 255.
+	 *
+	 * No runtime checks to ensure `index` is within range. Behavior is unspecified outside of
+	 * this range and can change depending on the terminal used.
+	 */
+	public static function underlineColor256(index : Int) : String {
+		return command('58;5;$index');
+	}
+
+	/**
+	 * Sets the underline color with **truecolor** using a hex-int.
+	 */
+	public static function underlineColorHex(hex : Int) : String {
+		return underlineColorRGB(
+			(hex >> 16) & 0xff,
+			(hex >> 8) & 0xff,
+			hex & 0xff
+		);
+	}
+
+	/**
+	 * Sets the underline color using RGBint.
+	 * Supported by terminals that support "Truecolor" (24-bit color)
+	 */
+	public static function underlineColorRGB(r:Int, g:Int, b:Int) : String {
+		return command('58;2;$r;$g;$b');
+	}
+
 
 	// PIECEMEAL PAINTING - STYLES ////////////////////////////////
 
