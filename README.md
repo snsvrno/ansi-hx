@@ -6,13 +6,7 @@ Implements most commands allowing for complete control of the terminal.
 
 ## Getting Started
 
-Install via [haxelib](lib.haxe.org)
-
-```
-haxelib install ansi
-```
-
-or using this git repo
+install using this git repo
 
 ```
 haxelib git http://www.github.com/snsvrno/ansi-hx.git
