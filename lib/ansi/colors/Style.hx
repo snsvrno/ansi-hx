@@ -7,10 +7,11 @@ enum abstract Style(Int) to Int {
 	var Standout = 1 << 2;
 	var Underline = 1 << 3;
 	var Blink = 1 << 4;
-	var Reverse = 1 << 5;
-	var Hidden = 1 << 6;
-	var Strike = 1 << 7;
-	var DoubleUnderline = 1 << 8;
+	var RapidBlink = 1 << 5;
+	var Reverse = 1 << 6;
+	var Hidden = 1 << 7;
+	var Strike = 1 << 8;
+	var DoubleUnderline = 1 << 9;
 }
 
 // STYLE SET CODES ///////////////////////////
@@ -21,6 +22,7 @@ inline var DIM : String = "2";
 inline var STANDOUT : String = "3";
 inline var UNDERSCORE : String = "4";
 inline var BLINK : String = "5";
+inline var RAPIDBLINK : String = "6";
 inline var REVERSE : String = "7";
 inline var HIDDEN : String = "8";
 inline var STRIKETHROUGH : String = "9";

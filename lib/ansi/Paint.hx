@@ -102,6 +102,12 @@ class Paint {
 		else return command(BLINK_RESET);
 	}
 
+	/*** Sets the rapid blink style */
+	public static function rapidBlink(?state : Bool = true) : String {
+		if (state) return command(RAPIDBLINK);
+		else return command(BLINK_RESET);
+	}
+
 	/*** Sets the reverse style */
 	public static function reverse(?state : Bool = true) : String {
 		if (state) return command(REVERSE);
@@ -139,6 +145,7 @@ class Paint {
 		if (flags & Style.Standout != 0) line += italic();
 		if (flags & Style.Underline != 0) line += underline();
 		if (flags & Style.Blink != 0) line += blink();
+		if (flags & Style.RapidBlink != 0) line += rapidBlink();
 		if (flags & Style.Reverse != 0) line += reverse();
 		if (flags & Style.Hidden != 0) line += hidden();
 		if (flags & Style.Strike != 0) line += strike();
