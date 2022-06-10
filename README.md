@@ -61,3 +61,5 @@ Sys.println(backgroundRGB(0, 230, 0));
 This will show the actual rgb color of (0,230,0) if `True Color`, the closest 256 color of index `46` (0,255,0) in `256 Color` or the standard color of `Green`.
 
 ![3 different outputs based on the color mode of terminal](images/color-fallback.png)
+
+It is imporant to note that the standard color scheme may vary drastically from the desired color because of a user's terminal theme.
