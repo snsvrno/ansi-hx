@@ -6,23 +6,59 @@ import ansi.colors.Style;
 class Paint {
 
 	// INTERNAL HELPER FUNCTIONS ////////////////////////////////////
-  /*
-	inline private static function foreground(color:Color) : String
-		return command(FG + color);
-
-	inline private static function background(color:Color) : String
-		return command(BG + color);
-	*/
 
 	inline private static function command(com:String) : String 
 		return ansi.Command.make(com + "m");
 
+	inline private static function _RGB(mode : String, r:Int, g:Int, b:Int) : String
+		return command('${mode}8;2;$r;$g;$b');
+
+	inline private static function _CM256(mode:String, index : Int) : String
+		return command('${mode}8;5;$index');
+
+	inline private static function _CM8(mode:String, color: Color, bright : Bool) : String {
+		return if (bright && mode == FG) command(BFG + color);
+		else if (bright && mode == BG) command(BBG + color);
+		else command(mode + color);
+	}
+
+	inline private static function _CM256Helper(mode : String, index : Int) : String {
+		switch(ansi.colors.ColorMode.mode) {
+			case CM16:
+				var newColor = ansi.colors.ColorTools.cm256ToCM8(index);
+				var bright = ansi.colors.ColorTools.cm256IsBright(index);
+				return _CM8(mode, newColor, bright);
+
+			default:
+				return _CM256(mode,index);
+		}
+	}
+
+	inline private static function _trueColorHelper(mode : String, r : Int, g : Int, b : Int)  : String {
+		switch(ansi.colors.ColorMode.mode) {
+
+			case CM16:
+				var newColor = ansi.colors.ColorTools.rgbToCM8(r,g,b);
+				var bright = ansi.colors.ColorTools.rgbIsBright(r,g,b);
+				return _CM8(mode, newColor, bright);
+
+			case CM256:
+				var index = ansi.colors.ColorTools.rgbToCM256(r,g,b);
+				return _CM256(mode,index);
+
+			case TRUE_COLOR:
+				return _RGB(mode,r,g,b);
+		}
+	}
+
 	// PIECEMEAL PAINTING - COLORS //////////////////////////////////
 
-	/*** Sets the foreground color, will set the color to "default" if not set */
+	/**
+	 * Sets the foreground color, will set the color to "default" if not set
+	 */
 	public static function color(?color:Color = Default, ?bright : Bool = false) : String {
-		var b = if (bright) ";1" else "";
-		return command(FG + color + b);
+		return if (bright) command(BFG + color);
+		else command(FG + color);
 	}
 
 	/**
@@ -31,17 +67,15 @@ class Paint {
 	 * No runtime checks to ensure `index` is within range. Behavior is unspecified outside of
 	 * this range and can change depending on the terminal used.
 	 */
-	public static function color256(index : Int) : String {
-		return command('38;5;$index');
-	}
+	public static function color256(index : Int) : String
+		return _CM256Helper(FG,index);
 
 	/**
 	 * Sets the foreground color using RGBint.
 	 * Supported by terminals that support "Truecolor" (24-bit color)
 	 */
-	public static function colorRGB(r:Int, g:Int, b:Int) : String {
-		return command('38;2;$r;$g;$b');
-	}
+	public static function colorRGB(r:Int, g:Int, b:Int) : String
+		return _trueColorHelper(FG,r,g,b);
 
 	/**
 	 * Sets the background color with **truecolor** using a hex-int.
@@ -56,8 +90,8 @@ class Paint {
 
 	/*** Sets the background color, will set the color to "default" if not set */
 	public static function background(?color:Color = Default, ?bright : Bool = false) : String {
-		var b = if (bright) ";1" else "";
-		return command(BG + color + b);
+		return if (bright) command(BBG + color);
+		else command(BG + color);
 	}
 
 	/**
@@ -66,17 +100,15 @@ class Paint {
 	 * No runtime checks to ensure `index` is within range. Behavior is unspecified outside of
 	 * this range and can change depending on the terminal used.
 	 */
-	public static function background256(index : Int) : String {
-		return command('48;5;$index');
-	}
+	public static function background256(index : Int) : String
+		return _CM256Helper(BG,index);
 
 	/**
 	 * Sets the background color using RGBint.
 	 * Supported by terminals that support "Truecolor" (24-bit color)
 	 */
-	public static function backgroundRGB(r:Int, g:Int, b:Int) : String {
-		return command('48;2;$r;$g;$b');
-	}
+	public static function backgroundRGB(r:Int, g:Int, b:Int) : String
+		return _trueColorHelper(BG,r,g,b);
 
 	/**
 	 * Sets the background color with **truecolor** using a hex-int.
@@ -101,9 +133,15 @@ class Paint {
 	 * No runtime checks to ensure `index` is within range. Behavior is unspecified outside of
 	 * this range and can change depending on the terminal used.
 	 */
-	public static function underlineColor256(index : Int) : String {
-		return command('58;5;$index');
-	}
+	public static function underlineColor256(index : Int) : String
+		return _CM256Helper(UL,index);
+
+	/**
+	 * Sets the underline color using RGBint.
+	 * Supported by terminals that support "Truecolor" (24-bit color)
+	 */
+	public static function underlineColorRGB(r:Int, g:Int, b:Int) : String
+		return _trueColorHelper(UL,r,g,b);
 
 	/**
 	 * Sets the underline color with **truecolor** using a hex-int.
@@ -115,15 +153,6 @@ class Paint {
 			hex & 0xff
 		);
 	}
-
-	/**
-	 * Sets the underline color using RGBint.
-	 * Supported by terminals that support "Truecolor" (24-bit color)
-	 */
-	public static function underlineColorRGB(r:Int, g:Int, b:Int) : String {
-		return command('58;2;$r;$g;$b');
-	}
-
 
 	// PIECEMEAL PAINTING - STYLES ////////////////////////////////
 

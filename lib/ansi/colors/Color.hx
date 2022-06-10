@@ -16,6 +16,9 @@ enum abstract Color(String) {
 
 inline var FG : String = "3";
 inline var BG : String = "4";
+inline var UL : String = "5";
+inline var BFG : String = "9";
+inline var BBG : String = "10";
 
 // extra placement codes for AIXTERM spec //////////////
 

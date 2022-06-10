@@ -15,14 +15,13 @@ function get() {
 	// checking for truecolor.
 	Sys.print(ansi.Paint.colorRGB(1,1,1));
 	Sys.print("\033P$qm\033\\");
+	Sys.print(ansi.Paint.reset());
 	if (getColorMode() == "38") return TRUE_COLOR;
 
 	Sys.print(ansi.Paint.color256(132));
 	Sys.print("\033P$qm\033\\");
-	if (getColorMode() == "95m") return CM256;
-
-	
 	Sys.print(ansi.Paint.reset());
+	if (getColorMode() == "95m") return CM256;
 
 	return CM16;
 }
