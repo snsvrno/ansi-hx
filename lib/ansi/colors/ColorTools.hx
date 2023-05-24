@@ -1,5 +1,11 @@
 package ansi.colors;
 
+// TODO: this may not be correctly organized, may want to move stuff around?
+
+/**
+	* Tools for working with ANSI terminal colors and strings that contain
+	* commands and colors*
+	*/
 class ColorTools {
 
 	static public function hexToCM256(hex : Int) : Int {
@@ -113,6 +119,10 @@ class ColorTools {
 		}
 	}
 
+	/**
+		* Returns the visual length of the string. Ignores terminal color
+		* and style character codes and commands.
+		*/
 	static public function length(string:String) : Int {
 		if (string == null) { return 0; }
 		var length = 0;
@@ -131,6 +141,25 @@ class ColorTools {
 		}
 
 		return length;
+	}
+
+	/**
+		* Pads the string to the desired length using the optionally provided padding
+		* character.
+		*
+		* Supports ANSI term color and style codes and will calculate the true length
+		* using `ansi.colors.ColorTools.length,.
+		*
+		* Will not do anything if the padded length is less that the current string
+		* character length
+		*
+		*/
+	static public function pad(string : String, length: Int, ?paddingChar : String = " ") : String {
+		var l = ansi.colors.ColorTools.length(string);
+		for (_ in l ... length) {
+			string += paddingChar;
+		}
+		return string;
 	}
 
 	static public function splitLength(string:String, len:Int) : Array<String> {

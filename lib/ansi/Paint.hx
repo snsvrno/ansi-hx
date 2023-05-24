@@ -7,8 +7,10 @@ class Paint {
 
 	// INTERNAL HELPER FUNCTIONS ////////////////////////////////////
 
-	inline private static function command(com:String) : String 
-		return ansi.Command.make(com + "m");
+	inline private static function command(com:String) : String {
+		if (ansi.Mode.mode == Bare) return "";
+		else return ansi.Command.make(com + "m");
+}
 
 	inline private static function _RGB(mode : String, r:Int, g:Int, b:Int) : String
 		return command('${mode}8;2;$r;$g;$b');

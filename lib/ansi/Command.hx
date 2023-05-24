@@ -125,7 +125,9 @@ class Command {
 	/**
 	 * Gives the current cursor postion
 	 */
-	public static function cursorPosition() : { r:Int, c:Int } {
+	public static function cursorPosition() : Null<{ r:Int, c:Int }> {
+		if (ansi.Mode.mode == Bare) return null;
+
 		exec('6n');
 
 		var w = 0;
@@ -164,7 +166,8 @@ class Command {
 	/**
 	 * Gets the size of the current terminal window
 	 */
-	public static function getSize() : { r:Int, c:Int } {
+	public static function getSize() : Null<{ r:Int, c:Int }> {
+		if (ansi.Mode.mode == Bare) return null;
 
 		// originally used saveCursor / restoreCursor but i got
 		// weird stuff where it would not restore to the same point
@@ -179,17 +182,18 @@ class Command {
 
 	/*** Internal helper function for sending a command to the terminal */
 	inline public static function exec(command:String) {
-		Sys.print(make(command));
+		if (ansi.Mode.mode != Bare) Sys.print(make(command));
 	}
 
 	// TODO: need to decide if i want to include DEC commands too
 	// http://gist.github.com/fnky/45871934aabd01cfb17a3a4f7296797
 	/*** Internal helper function for sending DEC commands */
 	inline public static function execDec(command:String) {
-		Sys.print('$ESC$command');
+		if (ansi.Mode.mode != Bare) Sys.print('$ESC$command');
 	}
 
 	inline public static function make(command:String) : String {
-		return '$ESC[$command';
+		if (ansi.Mode.mode == Bare) return "";
+		else return '$ESC[$command';
 	}
 }
