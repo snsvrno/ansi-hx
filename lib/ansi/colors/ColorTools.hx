@@ -193,4 +193,19 @@ class ColorTools {
 
 		return split;
 	}
+
+	public static function parse(string : String) : Color {
+		switch (string.toLowerCase()) {
+			case "black": return Black;
+			case "red": return Red;
+			case "green": return Green;
+			case "yellow": return Yellow;
+			case "blue": return Blue;
+			case "magenta": return Magenta;
+			case "cyan": return Cyan;
+			case "white": return White;
+			case other:
+				throw 'cannot parse $other as a color';
+		}
+	}
 }

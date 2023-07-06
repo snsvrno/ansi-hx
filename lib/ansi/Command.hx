@@ -115,10 +115,10 @@ class Command {
 	 * @return The cursor column position after writing the text
 	 */
 	public static function fill(r:Int, c:Int, height:Int, width:Int, text:String) {
-		for (w in 0 ... width) {
-			for (h in 0 ... height) {
-				write(r+h, c+w, text);
-			}
+		var string = "";
+		for (_ in 0 ... width) string += text;
+		for (h in 0 ... height) {
+			write(r+h, c, string);
 		}
 	}
 
