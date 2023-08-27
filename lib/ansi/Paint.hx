@@ -226,8 +226,8 @@ class Paint {
 	public static function paint(text : String, ?fg : Color, ?bg : Color, ?flags : Int = 0) : String {
 		var line = "";
 
-		if (bg != null) line += background(bg);
-		if (fg != null) line += color(fg);
+		if (bg != null) line += background(bg, flags & Style.BGBright != 0);
+		if (fg != null) line += color(fg, flags & Style.FGBright != 0);
 
 		if (flags & Style.Bold != 0) line += bold();
 		if (flags & Style.Dim != 0) line += dim();

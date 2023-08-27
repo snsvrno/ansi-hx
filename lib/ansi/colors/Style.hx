@@ -12,6 +12,8 @@ enum abstract Style(Int) to Int {
 	var Hidden = 1 << 7;
 	var Strike = 1 << 8;
 	var DoubleUnderline = 1 << 9;
+	var FGBright = 1 << 10;
+	var BGBright = 1 << 11;
 }
 
 // STYLE SET CODES ///////////////////////////
