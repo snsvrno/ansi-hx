@@ -223,7 +223,7 @@ class Paint {
 
 	// ALL IN ONE PAINTING /////////////////////////////////////////
 
-	public static function paint(text : String, ?fg : Color, ?bg : Color, ?flags : Int = 0) : String {
+	public static function paint(text : Dynamic, ?fg : Color, ?bg : Color, ?flags : Int = 0) : String {
 		var line = "";
 
 		if (bg != null) line += background(bg, flags & Style.BGBright != 0);
@@ -240,7 +240,7 @@ class Paint {
 		if (flags & Style.Strike != 0) line += strike();
 		if (flags & Style.DoubleUnderline != 0) line += doubleUnderline();
 
-		line += text;
+		line += '$text';
 
 		line += reset();
 
@@ -251,7 +251,7 @@ class Paint {
 	 * paints the text while preserving existing ansi color codes. will only paint unpainted
 	 * text with the new color.
 	 */
-	public static function paintPreserve(text : String, ?fg : Color, ?bg : Color, ?flags : Int = 0) : String {
+	public static function paintPreserve(text : Dynamic, ?fg : Color, ?bg : Color, ?flags : Int = 0) : String {
 			
 		var sets = ansi.CommandTools.splitByCodeSets(text);
 
